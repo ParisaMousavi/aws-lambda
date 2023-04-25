@@ -2,14 +2,19 @@
 #    Computacenter send email Lambda
 #------------------------------------------------------
 resource "aws_lambda_function" "this" {
-  filename         = var.filename
   function_name    = var.name
   role             = var.role_arn
   handler          = var.handler
+  filename         = var.filename
   source_code_hash = var.source_code_hash
   runtime          = var.runtime
   environment {
     variables = var.environment_vars
+  }
+  vpc_config {
+    # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
+    subnet_ids         = var.subnet_ids
+    security_group_ids = var.security_group_ids
   }
   tags = merge(
     var.additional_tags,

@@ -45,3 +45,11 @@ variable "starting_position" {
   type    = string
   default = "LATEST"
 }
+
+variable "subnet_ids" {
+  type = list(string)
+}
+
+variable "security_group_ids" {
+  type = list(string)
+}
